@@ -13,6 +13,9 @@ namespace HeightmapTerrainStarter
         SpriteBatch spriteBatch;
         FPSCamera camera;
 
+        // The terrain 
+        Terrain terrain;
+
         public ExampleGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -41,10 +44,13 @@ namespace HeightmapTerrainStarter
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // Build the terrain
+            Texture2D heightmap = Content.Load<Texture2D>("heightmap");
+            terrain = new Terrain(this, heightmap, 10f, Matrix.Identity);
+            
             // Create the camera
             camera = new FPSCamera(this, new Vector3(0, 5, 0));
-
-            // TODO: use this.Content to load your game content here
+            camera.HeightMap = terrain;
         }
 
         /// <summary>
@@ -83,7 +89,8 @@ namespace HeightmapTerrainStarter
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            // Draw the terrain
+            terrain.Draw(camera);
 
             base.Draw(gameTime);
         }

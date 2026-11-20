@@ -34,6 +34,11 @@ namespace HeightmapTerrainStarter
         public Matrix Projection { get; protected set; }
 
         /// <summary>
+        /// Gets or sets the heightmap this camera is interacting with
+        /// </summary>
+        public IHeightMap HeightMap { get; set; }
+
+        /// <summary>
         /// Updates the camera
         /// </summary>
         /// <param name="gameTime">The current GameTime</param>
@@ -68,6 +73,12 @@ namespace HeightmapTerrainStarter
             // Reset mouse state 
             Mouse.SetPosition(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height / 2);
             oldMouseState = Mouse.GetState();
+
+            // Adjust camera height to heightmap 
+            if(HeightMap != null)
+            {
+                position.Y = HeightMap.GetHeightAt(position.X, position.Z) + HeightOffset;
+            }
         }
 
         /// <summary>
